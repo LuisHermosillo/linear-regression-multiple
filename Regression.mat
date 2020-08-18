@@ -1,0 +1,39 @@
+alpha = 0.001;
+
+theta0 = 0;
+theta1 = 0;
+theta2 = 0;
+
+for h = 1:40
+    gradient0 = 0;
+    gradient1 = 0;
+    gradient2 = 0;
+    n_costo = 0
+    
+    for i = 1:m
+        hx = theta0 + (theta1*x1(i)) + (theta2*x2(i));
+        gradient0 = gradient0 + (hx - y(i));
+        gradient1 = gradient1 + (hx - y(i))*(x1(i));
+        gradient2 = gradient2 + (hx - y(i))*(x2(i));
+    end
+    
+    theta0 = theta0 - (alpha)*(gradient0/m);
+    theta1 = theta1 - (alpha)*(gradient1/m);
+    theta2 = theta2 - (alpha)*(gradient2/m);
+    
+    for i = 1:m
+        hx = theta0 + (theta1*x1(i)) + (theta2*x2(i));
+        n_costo = n_costo + (hx - y(i))^2; %%%% Costo ~ Error
+    end
+    
+    n_costo = (n_costo)/(2*m);
+    
+    v_costo(h) = n_costo;
+    v_theta0(h) = theta0;
+    v_theta1(h) = theta1;
+    v_theta2(h) = theta2;
+end
+
+for i = 1:m
+    output_model(i) = theta0 + (theta1*x1(i)) + (theta2*x2(i));
+end
